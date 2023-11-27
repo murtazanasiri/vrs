@@ -2,34 +2,30 @@ import mongoose from "mongoose";
 
 const reservationRequestSchema = new mongoose.Schema({
   startLocation: {
-    name: String,
-    type: true,
+    type: String,
+    required: true,
   },
   destination: {
-    name: String,
-    type: true,
+    type: String,
+    required: true,
   },
   purpose: {
-    name: String,
-    type: true,
+    type: String,
+    required: true,
   },
   passengerName: {
-    name: String,
-    type: true,
+    type: String,
+    required: true,
   },
   travelDate: {
-    name: Date,
-    type: true,
-  },
-  startLocation: {
-    name: Date,
+    type: Date,
+    required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
     required: true,
   },
-
   updatedAt: {
     type: Date,
     default: Date.now,
@@ -38,7 +34,7 @@ const reservationRequestSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   status: {
     type: String,
@@ -65,7 +61,6 @@ const reservationRequestSchema = new mongoose.Schema({
     },
     comments: String,
   },
-
   transportAssignment: {
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
@@ -76,7 +71,6 @@ const reservationRequestSchema = new mongoose.Schema({
       ref: "Driver",
     },
   },
-
   comments: String,
   timestamp: {
     type: Date,
