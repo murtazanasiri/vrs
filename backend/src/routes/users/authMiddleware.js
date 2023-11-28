@@ -3,23 +3,22 @@ import jwt from "jsonwebtoken";
 
 const middleware = async (req, res, next) => {
   try {
-    const token = req.header("Authorization").replace("Bearer", "");
-    const decoded = jwt.verify(
-      token,
-      "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwMDkwMjQ4NiwiaWF0IjoxNzAwOTAyNDg2fQ.LELnCK83n8tacY6SRQXu4CfOd0nGvp2xoRhHy53Wthw"
-    );
+    const token = req.header("Authorization").replace("Bearer", "").trim();
 
-    const user = await User.findOne({
-      _id: decoded.userId,
-      "tokens.token": token,
-    });
+    const decoded = jwt.verify(token, "secret");
+
+    const user = await User.findById(decoded.userId);
 
     if (!user) {
       throw new Error();
     }
 
-    req.token = token;
-    req.user = user;
+    req.userData = {
+      userId: user._id,
+      userRole: user.role,
+      userEmail: user.department,
+    };
+
     next();
   } catch (err) {
     res.status(401).json({ error: "Please authentication." });
