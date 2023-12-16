@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { userRouter } from "./routes/users/auth.js";
 import { requestRouter } from "./routes/requests.js";
+import { hodRouter } from "./routes/hodRoutes.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 // Include user authentication and registeration routes
 app.use("/api/auth", userRouter);
 app.use("/api/requests", requestRouter);
+app.use("/api/hod", hodRouter);
 
 mongoose.connect(
   "mongodb+srv://murtaza:nasiri@vrs.l0yq17m.mongodb.net/vrs?retryWrites=true&w=majority",
