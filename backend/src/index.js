@@ -5,6 +5,7 @@ import { userRouter } from "./routes/users/auth.js";
 import { requestRouter } from "./routes/requests.js";
 import { hodRouter } from "./routes/hodRoutes.js";
 import { transportRouter } from "./routes/transportRoutes.js";
+import { securityRouter } from "./routes/securityRoutes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", userRouter);
 app.use("/api/requests", requestRouter);
 app.use("/api/hod", hodRouter);
 app.use("/api/transport", transportRouter);
+app.use("/api/security", securityRouter);
 
 mongoose.connect(
   "mongodb+srv://murtaza:nasiri@vrs.l0yq17m.mongodb.net/vrs?retryWrites=true&w=majority",

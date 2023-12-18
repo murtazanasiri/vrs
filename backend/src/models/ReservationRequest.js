@@ -57,8 +57,9 @@ const reservationRequestSchema = new mongoose.Schema({
   },
   securityApproval: {
     approved: {
-      type: Boolean,
-      default: false,
+      type: Number,
+      description: "1 means pending, 2 meants rejected, 3 means confirmed",
+      default: 1,
     },
     comments: String,
   },
