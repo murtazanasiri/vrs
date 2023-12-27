@@ -1,11 +1,11 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import Login from "./components/auth/Login";
+
+const router = createBrowserRouter([{ path: "/", element: <Login /> }]);
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h2>Welcome to VRS app</h2>
-      </header>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
