@@ -7,6 +7,8 @@ import {
   HomeLayout,
   DashboardLayout,
   Landing,
+  AllRequests,
+  NewRequest,
 } from "./pages";
 
 const router = createBrowserRouter([
@@ -18,7 +20,20 @@ const router = createBrowserRouter([
       { index: true, element: <Landing /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
-      { path: "dashboard", element: <DashboardLayout /> },
+      {
+        path: "dashboard",
+        element: <DashboardLayout />,
+        children: [
+          {
+            index: true,
+            element: <AllRequests />,
+          },
+          {
+            path: "new-request",
+            element: <NewRequest />,
+          },
+        ],
+      },
     ],
   },
 
