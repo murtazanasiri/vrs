@@ -10,6 +10,7 @@ router.post("/", authMiddleware, async (req, res) => {
   try {
     const { startLocation, destination, purpose, passengerName, travelDate } =
       req.body;
+
     const user = req.userData;
 
     const request = new ReservationRequest({
@@ -30,8 +31,9 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 // Get all requests for a user
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
+    console.log(req.userData);
     const user = req.userData;
     const request = await ReservationRequest.find({ user: user.userId });
     res.json(request);
@@ -41,7 +43,7 @@ router.get("/", authMiddleware, async (req, res) => {
 });
 
 // Edit a request for a user
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const { startLocation, destination, purpose, passengerName, travelDate } =
       req.body;
@@ -77,7 +79,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 });
 
 // Delete a request for user
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const requestId = req.params.id;
     const user = req.userData;

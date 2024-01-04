@@ -1,22 +1,28 @@
 import React, { createContext, useContext, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect, useLoaderData } from "react-router-dom";
 
 import Wrapper from "../assets/wrappers/Dashboard";
 import { BigSidebar, SmallSidebar, Navbar } from "../components";
+import customFetch from "../utils/CustomFetch";
+
+export const loader = async () => {
+  try {
+    //const { data } = await customFetch.get("/auth/users/current-user");
+    return "hello world";
+  } catch (error) {
+    return redirect("/");
+  }
+};
 
 const DashboardContext = createContext();
 
-const checkDefaultTheme = () => {
-  const isDarkTheme = localStorage.getItem("darkTheme") === "true";
-  document.body.classList.toggle("dark-theme", isDarkTheme);
-  return isDarkTheme;
-};
-
-const DashboardLayout = () => {
+const DashboardLayout = (isDarkThemeEnabled) => {
+  const data = useLoaderData();
+  console.log(data);
   // Temporary
   const user = { name: "john" };
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
+  const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;

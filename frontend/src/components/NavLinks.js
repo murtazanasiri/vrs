@@ -14,6 +14,7 @@ const NavLinks = ({ isBigSiderbar }) => {
         return (
           <NavLink
             to={path}
+            key={text}
             className="nav-link"
             onClick={isBigSiderbar ? null : toggleSidebar}
             end

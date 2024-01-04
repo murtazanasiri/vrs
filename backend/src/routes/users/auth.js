@@ -1,12 +1,12 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
 import { User } from "../../models/User.js";
 import { Role } from "../../models/Role.js";
 import { Department } from "../../models/Department.js";
+import { createJWT } from "../../utils/tokenUtils.js";
 
 // User login
 router.post("/login", async (req, res) => {
@@ -23,12 +23,19 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign(
-      { userId: user._id, role: user.role, department: user.department },
-      "secret",
-      { expiresIn: "1h" }
-    );
-    res.json({ token });
+    const token = createJWT({
+      userId: user._id,
+      role: user.role,
+      dep: user.department,
+    });
+
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + oneDay),
+    });
+    res.status(200).json({ msg: "user logged in" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -80,6 +87,12 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+});
+
+router.get("/users/current-user", async (req, res) => {
+  const user = await User.findOne({ _id: req.user.userId });
+  const userDetails = user.toJSON();
+  res.status(200).json({ user: userDetails });
 });
 
 export { router as userRouter };

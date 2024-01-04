@@ -10,6 +10,17 @@ import {
   AllRequests,
   NewRequest,
 } from "./pages";
+import { action as registerAction } from "./pages/UserRegister";
+import { action as loginAction } from "./pages/Login";
+import { loader as dashbaordLoader } from "./pages/DashboardLayout";
+
+const checkDefaultTheme = () => {
+  const isDarkTheme = localStorage.getItem("darkTheme") === "true";
+  document.body.classList.toggle("dark-theme", isDarkTheme);
+  return isDarkTheme;
+};
+
+const isDarkThemeEnabled = checkDefaultTheme();
 
 const router = createBrowserRouter([
   {
@@ -17,12 +28,20 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     errorElement: <Error />,
     children: [
-      { index: true, element: <Landing /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
+      {
+        index: true,
+        element: <Login />,
+        action: loginAction,
+      },
+      {
+        path: "register",
+        element: <Register />,
+        action: registerAction,
+      },
       {
         path: "dashboard",
-        element: <DashboardLayout />,
+        element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
+        loader: dashbaordLoader,
         children: [
           {
             index: true,

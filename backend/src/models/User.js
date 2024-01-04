@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   },
   status: {
     type: Number,
-    required: true,
+    default: 0,
   },
   role: {
     type: mongoose.Schema.Types.ObjectId,

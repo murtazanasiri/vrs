@@ -22,9 +22,9 @@ const SmallSidebar = () => {
           <button type="button" className="close-btn" onClick={toggleSidebar}>
             <FaTimes />
           </button>
-          <heaer>
+          <header>
             <Logo />
-          </heaer>
+          </header>
           <NavLinks />
         </div>
       </div>
