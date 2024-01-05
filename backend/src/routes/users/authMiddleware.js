@@ -1,12 +1,11 @@
 import { User } from "../../models/User.js";
-import jwt from "jsonwebtoken";
 import { verifyJWT } from "../../utils/verifyJWT.js";
 
-const middleware = async (req, res, next) => {
+const middleware = (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) {
-      throw new Error("auth");
+      throw new Error("Authentication failed");
     }
     const { userId, role, dep } = verifyJWT(token);
     req.userData = { userId, role, dep };

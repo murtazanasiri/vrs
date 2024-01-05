@@ -12,6 +12,7 @@ import { hodRouter } from "./routes/hodRoutes.js";
 import { transportRouter } from "./routes/transportRoutes.js";
 import { securityRouter } from "./routes/securityRoutes.js";
 import { authMiddleware } from "./routes/users/authMiddleware.js";
+import { getCurrentUser } from "./routes/userRoute.js";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/api/requests", authMiddleware, requestRouter);
 app.use("/api/hod", hodRouter);
 app.use("/api/transport", transportRouter);
 app.use("/api/security", securityRouter);
+app.use("/api/users", authMiddleware, getCurrentUser);
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,

@@ -12,6 +12,7 @@ import {
 } from "./pages";
 import { action as registerAction } from "./pages/UserRegister";
 import { action as loginAction } from "./pages/Login";
+import { action as newRequestAction } from "./pages/NewRequest";
 import { loader as dashbaordLoader } from "./pages/DashboardLayout";
 
 const checkDefaultTheme = () => {
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
           {
             path: "new-request",
             element: <NewRequest />,
+            action: newRequestAction,
           },
         ],
       },

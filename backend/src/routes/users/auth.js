@@ -7,6 +7,7 @@ import { User } from "../../models/User.js";
 import { Role } from "../../models/Role.js";
 import { Department } from "../../models/Department.js";
 import { createJWT } from "../../utils/tokenUtils.js";
+import { authMiddleware } from "./authMiddleware.js";
 
 // User login
 router.post("/login", async (req, res) => {
@@ -34,6 +35,7 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       expires: new Date(Date.now() + oneDay),
+      secure: process.env.NODE_ENV === "production",
     });
     res.status(200).json({ msg: "user logged in" });
   } catch (err) {
@@ -89,8 +91,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/users/current-user", async (req, res) => {
-  const user = await User.findOne({ _id: req.user.userId });
+// Get curren user
+router.get("/users/current-user", authMiddleware, async (req, res) => {
+  const user = await User.findOne({ _id: req.userData.userId });
   const userDetails = user.toJSON();
   res.status(200).json({ user: userDetails });
 });

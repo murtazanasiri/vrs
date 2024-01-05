@@ -6,10 +6,16 @@ import { authMiddleware } from "./users/authMiddleware.js";
 import mongoose from "mongoose";
 
 // Create a request
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/new-request", authMiddleware, async (req, res) => {
   try {
-    const { startLocation, destination, purpose, passengerName, travelDate } =
-      req.body;
+    const {
+      startLocation,
+      destination,
+      purpose,
+      passengerName,
+      passengerContact,
+      travelDate,
+    } = req.body;
 
     const user = req.userData;
 
@@ -18,6 +24,7 @@ router.post("/", authMiddleware, async (req, res) => {
       destination,
       purpose,
       passengerName,
+      passengerContact,
       travelDate,
       user: user.userId,
     });

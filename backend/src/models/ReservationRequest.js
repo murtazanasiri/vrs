@@ -17,6 +17,10 @@ const reservationRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  passengerContact: {
+    type: Number,
+    required: true,
+  },
   travelDate: {
     type: Date,
     required: true,
@@ -74,10 +78,6 @@ const reservationRequestSchema = new mongoose.Schema({
     },
   },
   comments: String,
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 export const ReservationRequest = mongoose.model(
