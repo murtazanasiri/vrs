@@ -14,6 +14,7 @@ import { action as registerAction } from "./pages/UserRegister";
 import { action as loginAction } from "./pages/Login";
 import { action as newRequestAction } from "./pages/NewRequest";
 import { loader as dashbaordLoader } from "./pages/DashboardLayout";
+import { loader as allRequestLoader } from "./pages/AllRequests";
 
 const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <AllRequests />,
+            loader: allRequestLoader,
           },
           {
             path: "new-request",

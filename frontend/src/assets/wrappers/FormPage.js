@@ -5,6 +5,14 @@ const Wrapper = styled.section`
   width: 100%;
   background: var(--background-secondary-color);
   padding: 3rem 2rem 4rem;
+  h1 {
+    font-size: 30px;
+    color: #0f172a;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: left;
+    margin-bottom: 15px;
+  }
   .form-title {
     margin-bottom: 2rem;
   }

@@ -31,7 +31,7 @@ const NewRequest = () => {
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <h4 className="form-title">new request</h4>
+        <h1 className="form-title">new request</h1>
         <div className="form-center">
           <FormRow
             type="text"
