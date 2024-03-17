@@ -3,6 +3,7 @@ import Wrapper from "../assets/wrappers/AllRequest";
 import { useAllRequestContext } from "../pages/AllRequests";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import { Link } from "react-router-dom";
 day.extend(advancedFormat);
 
 const RequestContainer = () => {
@@ -46,7 +47,12 @@ const RequestContainer = () => {
                   <td>{data.purpose}</td>
                   <td>{data.status}</td>
                   <td>
-                    <button className="btn">Details</button>
+                    <Link
+                      to={`/dashboard/request-details/${data._id}`}
+                      className="btn"
+                    >
+                      Details
+                    </Link>
                   </td>
                 </tr>
               );
