@@ -5,6 +5,7 @@ import Wrapper from "../assets/wrappers/Dashboard";
 import { BigSidebar, SmallSidebar, Navbar } from "../components";
 import customFetch from "../utils/CustomFetch";
 import { toast } from "react-toastify";
+import { checkDefaultTheme } from "../App";
 
 export const loader = async () => {
   try {
@@ -22,7 +23,7 @@ const DashboardLayout = (isDarkThemeEnabled) => {
   const navigate = useNavigate();
 
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
+  const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
