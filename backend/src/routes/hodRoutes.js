@@ -31,15 +31,13 @@ router.put("/approve/:id", authMiddleware, async (req, res) => {
     const { approved, comments } = req.body;
     const requestId = req.params.id;
     const user = req.userData;
-    const role = await Role.findById(user.userRole);
 
-    if (role.name !== "hod") {
+    if (user.roleName !== "hod") {
       return res.status(403).json({ message: "Permission denied" });
     }
 
     const request = await ReservationRequest.findOne({
       _id: requestId,
-      "user.department": user.department,
       status: "created",
     });
 
@@ -49,10 +47,12 @@ router.put("/approve/:id", authMiddleware, async (req, res) => {
         .json({ message: "Request not found or already processed" });
     }
 
+    console.log(typeof approved);
+
     request.hodApproval.approved = approved;
     request.hodApproval.comments = comments;
 
-    if (approved === 3) {
+    if (Number(approved) === 3) {
       request.status = "hodApproved";
     } else {
       request.status = "rejected";

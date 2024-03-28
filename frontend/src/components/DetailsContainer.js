@@ -2,73 +2,99 @@ import React from "react";
 
 import { FaCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 
-const DetailsContainer = () => {
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import day from "dayjs";
+
+const DetailsContainer = ({ data }) => {
+  const date = day(data.created_at).format("MMM Do, YYYY");
+  const travelDate = day(data.travelDate).format("MMM Do, YYYY, HH:MM");
+  const updatedDate = day(data.HODUpdatedAt).format("MMM Do, YYYY, HH:MM");
+
   return (
     <div>
       <table>
         <tr>
-          <td className="title">ID</td>
-          <td className="content">65991c6c50112991d86f67a1</td>
+          <td className="title">Request ID</td>
+          <td className="content">{data._id}</td>
         </tr>
         <tr>
-          <td className="title">Created At</td>
-          <td className="content">2021-10-04 09:50 am</td>
+          <td className="title">Created Date Time</td>
+          <td className="content">{date}</td>
         </tr>
         <tr>
           <td className="title">Requestor</td>
           <td className="content">
-            Murtaza Nasiri / <b>0442375285</b> / murtazanasiri1991@gmail.com
+            {data.userData.name} / <b>{data.userData.contactNo}</b> /{" "}
+            {data.userData.email}
           </td>
         </tr>
         <tr>
           <td className="title">Status</td>
           <td className="content">
-            <b>security approved</b>
+            <b>{data.status}</b>
           </td>
         </tr>
         <tr>
           <td className="title">Start Location</td>
-          <td className="content">Helsinki</td>
+          <td className="content">{data.startLocation}</td>
         </tr>
         <tr>
           <td className="title">Travel Date</td>
-          <td className="content">2021-10-04 09:50 am</td>
+          <td className="content">{travelDate}</td>
         </tr>
         <tr>
           <td className="title">Destination Location</td>
-          <td className="content">Vantaa</td>
+          <td className="content">{data.destination}</td>
         </tr>
         <tr>
           <td className="title">Purpose</td>
-          <td className="content">meeting</td>
+          <td className="content">{data.purpose}</td>
         </tr>
         <tr>
           <td className="title">Passenger Name</td>
-          <td className="content">John Smith</td>
+          <td className="content">{data.passengerName}</td>
         </tr>
         <tr>
           <td className="title">Passenger Contact</td>
-          <td className="content">+358442375285</td>
+          <td className="content">{data.passengerContact}</td>
         </tr>
         <tr>
           <td className="title">Head of department</td>
           <td className="content">
-            <FaCheckCircle /> approved by <b>John IT</b> at 2021-10-04 09:50 am
+            {data.hodApproval.approved !== 1 ? (
+              <span>
+                <FaCheckCircle /> approved by <b>HOD Team</b> at {updatedDate}
+              </span>
+            ) : (
+              "Pending for HOD"
+            )}
           </td>
         </tr>
         <tr>
           <td className="title">Transport</td>
           <td className="content">
-            <FaCheckCircle /> approved by <b>Transport Team</b> at 2021-10-04
-            09:50 am
+            {data.transportAssignment?.driver ? (
+              <span>
+                <FaCheckCircle /> approved by <b>Transport Team</b> at{" "}
+                {updatedDate}
+              </span>
+            ) : (
+              "Pending for Transport"
+            )}
           </td>
         </tr>
 
         <tr>
           <td className="title">Security</td>
           <td className="content">
-            <FaRegTimesCircle /> approved by <b>Transport Team</b> at 2021-10-04
-            09:50 am
+            {data.securityApproval.approved !== 1 ? (
+              <span>
+                <FaRegTimesCircle /> approved by <b>Transport Team</b> at
+                2021-10-04 09:50 am
+              </span>
+            ) : (
+              "Pending for Security"
+            )}
           </td>
         </tr>
       </table>

@@ -40,9 +40,31 @@ router.post("/new-request", authMiddleware, async (req, res) => {
 // Get all requests for a user
 router.get("/", async (req, res) => {
   try {
-    console.log(req.userData);
-    const user = req.userData;
-    const request = await ReservationRequest.find({ user: user.userId });
+    const role = req.userData.roleName;
+    let requestStatus = "";
+
+    // Determine request status based on user role
+    switch (role) {
+      case "requester":
+        requestStatus = "created";
+        break;
+      case "hod":
+        requestStatus = "created";
+        break;
+      case "transport":
+        requestStatus = "hodApproved";
+        break;
+      case "security":
+        requestStatus = "transportAssigned";
+        break;
+      default:
+        requestStatus = ""; // For other roles, show all requests
+        break;
+    }
+
+    const request = await ReservationRequest.find({
+      status: requestStatus,
+    });
     res.json(request);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -82,6 +104,42 @@ router.put("/:id", async (req, res) => {
     res.json(request);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+// Get a request by ID including user details
+router.get("/:id", authMiddleware, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const user = req.userData;
+
+    const request = await ReservationRequest.aggregate([
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(requestId),
+          // user: new mongoose.Types.ObjectId(user.userId),
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userData",
+        },
+      },
+      {
+        $unwind: "$userData",
+      },
+    ]);
+
+    if (!request.length) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+
+    res.json(request[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

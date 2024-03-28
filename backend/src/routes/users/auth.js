@@ -24,9 +24,12 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    const roleName = await Role.findOne({ _id: user.role });
+
     const token = createJWT({
       userId: user._id,
       role: user.role,
+      roleName: roleName.name,
       dep: user.department,
     });
 

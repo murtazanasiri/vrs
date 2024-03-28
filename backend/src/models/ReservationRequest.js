@@ -58,6 +58,10 @@ const reservationRequestSchema = new mongoose.Schema({
       default: 1,
     },
     comments: String,
+    HODUpdatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   securityApproval: {
     approved: {
@@ -66,6 +70,10 @@ const reservationRequestSchema = new mongoose.Schema({
       default: 1,
     },
     comments: String,
+    securityUpdatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   transportAssignment: {
     vehicle: {
@@ -78,6 +86,10 @@ const reservationRequestSchema = new mongoose.Schema({
     },
   },
   comments: String,
+  transportUpdatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const ReservationRequest = mongoose.model(

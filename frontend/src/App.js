@@ -15,6 +15,7 @@ import { action as loginAction } from "./pages/Login";
 import { action as newRequestAction } from "./pages/NewRequest";
 import { loader as dashbaordLoader } from "./pages/DashboardLayout";
 import { loader as allRequestLoader } from "./pages/AllRequests";
+import { loader as RequestDetails } from "./pages/RequestDetails";
 import DetailsRequest from "./pages/RequestDetails";
 
 export const checkDefaultTheme = () => {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
           {
             path: "request-details/:id",
             element: <DetailsRequest />,
+            loader: RequestDetails,
           },
         ],
       },

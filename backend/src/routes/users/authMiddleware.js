@@ -7,8 +7,10 @@ const middleware = (req, res, next) => {
     if (!token) {
       throw new Error("Authentication failed");
     }
-    const { userId, role, dep } = verifyJWT(token);
-    req.userData = { userId, role, dep };
+
+    console.log(verifyJWT(token));
+    const { userId, role, roleName, dep } = verifyJWT(token);
+    req.userData = { userId, role, roleName, dep };
     next();
   } catch (error) {
     res.status(401).json({ message: "Authentication failed" });
