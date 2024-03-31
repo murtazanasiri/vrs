@@ -16,7 +16,10 @@ import { action as newRequestAction } from "./pages/NewRequest";
 import { loader as dashbaordLoader } from "./pages/DashboardLayout";
 import { loader as allRequestLoader } from "./pages/AllRequests";
 import { loader as RequestDetails } from "./pages/RequestDetails";
+import { loader as editRequestLoader } from "./pages/EditRequest";
+import { action as editRequestAction } from "./pages/EditRequest";
 import DetailsRequest from "./pages/RequestDetails";
+import EditRequest from "./pages/EditRequest";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -61,6 +64,12 @@ const router = createBrowserRouter([
             path: "request-details/:id",
             element: <DetailsRequest />,
             loader: RequestDetails,
+          },
+          {
+            path: "edit-request/:id",
+            element: <EditRequest />,
+            loader: editRequestLoader,
+            action: editRequestAction,
           },
         ],
       },

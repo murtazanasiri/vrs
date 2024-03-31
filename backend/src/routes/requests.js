@@ -92,11 +92,11 @@ router.put("/:id", async (req, res) => {
     }
 
     // check if the user is the owner of request
-    const userObjectId = new mongoose.Types.ObjectId(user.userId);
+    // const userObjectId = new mongoose.Types.ObjectId(user.userId);
 
-    if (request.user.toString() !== userObjectId.toString()) {
-      return res.status(403).json({ message: "Unauthorized access" });
-    }
+    // if (request.user.toString() !== userObjectId.toString()) {
+    //   return res.status(403).json({ message: "Unauthorized access" });
+    // }
 
     // update the request properties
     request.startLocation = startLocation;
