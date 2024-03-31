@@ -46,7 +46,13 @@ router.get("/", async (req, res) => {
     // Determine request status based on user role
     switch (role) {
       case "requester":
-        requestStatus = "created";
+        requestStatus = [
+          "created",
+          "hodApproved",
+          "transportAssigned",
+          "securityApproved",
+          "rejected",
+        ];
         break;
       case "hod":
         requestStatus = "created";

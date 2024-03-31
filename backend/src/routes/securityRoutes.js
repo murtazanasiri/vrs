@@ -29,38 +29,21 @@ router.put("/approve/:id", authMiddleware, async (req, res) => {
   try {
     const { approved, comments } = req.body;
     const requestId = req.params.id;
-    const user = req.userData;
-    const role = await Role.findById(user.userRole);
 
-    if (role.name !== "security") {
-      return res.status(403).json({ message: "Permission denied" });
-    }
-
-    const request = await ReservationRequest.findOne({
-      _id: requestId,
-      status: "transportAssigned",
-    });
-
+    const request = await ReservationRequest.findById(requestId);
     if (!request) {
-      return res
-        .status(404)
-        .json({ message: "Request not found or not assigned by transport" });
+      return res.status(404).json({ message: "Request not found" });
     }
 
     request.securityApproval.approved = approved;
     request.securityApproval.comments = comments;
-
-    if (approved) {
-      request.status = "securityApproved";
-    } else {
-      request.status = "rejected";
-    }
+    request.status = approved === 3 ? "securityApproved" : "rejected";
 
     await request.save();
 
     res.json(request);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 

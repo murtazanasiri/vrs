@@ -26,45 +26,47 @@ router.get("/requests", authMiddleware, async (req, res) => {
   }
 });
 
-// Assigning Driver and Vehicle to the request
+// Get all available drivers
+router.get("/drivers", authMiddleware, async (req, res) => {
+  try {
+    const drivers = await Driver.find();
+    res.json(drivers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all available vehicles
+router.get("/vehicles", authMiddleware, async (req, res) => {
+  try {
+    const vehicles = await Vehicle.find();
+    res.json(vehicles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Assign driver and vehicle to request
 router.put("/assign/:id", authMiddleware, async (req, res) => {
   try {
-    const { vehicleId, driverId } = req.body;
+    const { driver, vehicle, comments } = req.body;
     const requestId = req.params.id;
-    const user = req.userData;
-    const role = await Role.findById(user.userRole);
 
-    if (role.name !== "transport") {
-      return res.status(403).json({ message: "Permission denied" });
-    }
-
-    const request = await ReservationRequest.findOne({
-      _id: requestId,
-      status: "hodApproved",
-    });
-
+    const request = await ReservationRequest.findById(requestId);
     if (!request) {
-      return res
-        .status(404)
-        .json({ message: "Request not found or not apporved by HOD" });
+      return res.status(404).json({ message: "Request not found" });
     }
 
-    const vehicle = await Vehicle.findById(vehicleId);
-    const driver = await Driver.findById(driverId);
-
-    if (!vehicle || !driver) {
-      return res.status(404).json({ message: "Vehicle or drvier not found" });
-    }
-
-    request.transportAssignment.vehicle = vehicle._id;
-    request.transportAssignment.driver = driver._id;
+    request.transportAssignment.driver = driver;
+    request.transportAssignment.vehicle = vehicle;
+    request.comments = comments;
     request.status = "transportAssigned";
 
     await request.save();
 
     res.json(request);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 

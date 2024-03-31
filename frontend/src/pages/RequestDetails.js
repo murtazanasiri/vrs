@@ -8,6 +8,8 @@ import customFetch from "../utils/CustomFetch";
 import { toast } from "react-toastify";
 import HODAction from "../components/HODAction";
 import { useDashboardContext } from "../pages/DashboardLayout";
+import TransportAction from "../components/TransportAction";
+import SecurityAction from "../components/SecurityAction";
 
 export const loader = async ({ params }) => {
   try {
@@ -25,7 +27,6 @@ const RequestDetails = () => {
   const { id } = useParams();
 
   const roleName = user?.role?.name;
-  console.log(roleName);
 
   return (
     <Wrapper>
@@ -33,6 +34,8 @@ const RequestDetails = () => {
       <DetailsContainer data={data} />
       {roleName === "requester" && <RequesterAction requestId={id} />}
       {roleName === "hod" && <HODAction requestId={id} />}
+      {roleName === "transport" && <TransportAction requestId={id} />}
+      {roleName === "security" && <SecurityAction requestId={id} />}
     </Wrapper>
   );
 };
